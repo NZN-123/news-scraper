@@ -23,7 +23,7 @@ public class ConsoleNewsApp {
             }
             System.out.println("[몇 건 검색하시겠습니까? (양의 정수)]");
             int limit = sc.nextInt();
-            sc.nextLine(); // 버퍼 비우기를 안하면 이후 다음 nextLine 호출 시 엔터키 입력으로 안한 빈 문자열 입력
+            sc.nextLine(); // 버퍼 비우기를 안하면 이후 다음 nextLine 호출 시 엔터키 입력으로 인한 빈 문자열 입력
             newsService.search(keyword, limit);
             System.out.println("[검색이 완료 되었습니다]");
         }

@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+//public class NaverNewsProvider extends AbstractHttpScraper {
 public class NaverNewsProvider extends AbstractHttpClient implements NewsProvider {
     //    protected AbstractHttpScraper(String endpoint) {
 //        this.endpoint = endpoint;
@@ -47,6 +48,7 @@ public class NaverNewsProvider extends AbstractHttpClient implements NewsProvide
                 .header("X-Naver-Client-Id", clientId)
                 .header("X-Naver-Client-Secret", clientSecret)
                 .build();
+
         List<NewsResult> results = new ArrayList<>();
         try {
             HttpResponse<String> response = httpClient.send(
@@ -54,7 +56,7 @@ public class NaverNewsProvider extends AbstractHttpClient implements NewsProvide
                     HttpResponse.BodyHandlers.ofString()
             );
             String body = response.body();
-            System.out.println("body = " + body);
+//            System.out.println("body = " + body);
 
             // items
             String items = body.split("items")[1]; // 0 <-> 1
@@ -62,17 +64,19 @@ public class NaverNewsProvider extends AbstractHttpClient implements NewsProvide
 //            System.out.println("items = " + items);
             String[] itemArr = items.split("},");
             for (String item : itemArr) {
-                System.out.println("item = " + item);
+//                System.out.println("item = " + item);
 //                String title = item
 //                        .split("\"title\":\"")[1] // 0 <-> 1 -> ["title":"]
 //                        .split("\",")[0]; // ",
-                String title = cutText(item, "\"title\":\"", "\",");
-                String link = cutText(item, "\"link\":\"", "\",");
-                String description = cutText(item, "\"description\":\"", "\",");
-                String pubDate = cutText(item, "\"description\":\"", "\",");
+                String title = cutText(item, "\"title\":\"", "\",\n");
+                String link = cutText(item, "\"link\":\"", "\",\n");
+                String description = cutText(item, "\"description\":\"", "\",\n");
+                // pubDate는 문자열 ""가 추가적으로 들어갈 염려가 없기 때문에 바로 "로 구분
+                String pubDate = cutText(item, "\"description\":\"", "\"");
                 NewsResult result = new NewsResult(title, description, link, pubDate);
                 results.add(result);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
