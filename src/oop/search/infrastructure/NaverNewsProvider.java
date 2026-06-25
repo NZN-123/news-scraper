@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NaverNewsProvider extends AbstractHttpScraper {
+public class NaverNewsProvider extends AbstractHttpClient implements NewsProvider {
     //    protected AbstractHttpScraper(String endpoint) {
 //        this.endpoint = endpoint;
 //    }
@@ -89,7 +89,10 @@ public class NaverNewsProvider extends AbstractHttpScraper {
 
     public static void main(String[] args) {
         NewsProvider provider = new NaverNewsProvider();
-        List<NewsResult> results = provider.fetchNews("축구", 10);
-        System.out.println("results = " + results);
+        List<NewsResult> results = provider.fetchNews("프리티걸", 10);
+//        System.out.println("results = " + results);
+        for (NewsResult newsItem : results) {
+            System.out.println("newsItem = " + newsItem);
+        }
     }
 }
